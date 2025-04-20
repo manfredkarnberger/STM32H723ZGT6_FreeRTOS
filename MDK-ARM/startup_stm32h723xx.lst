@@ -1275,10 +1275,10 @@ ARM Macro Assembler    Page 20
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M7.fp.dp --apcs=
 interwork --depend=stm32h723zgt6\startup_stm32h723xx.d -ostm32h723zgt6\startup_
-stm32h723xx.o -I../Drivers/CMSIS/Include -I.\RTE\_STM32H723ZGT6 -IC:\Users\manf
-r\AppData\Local\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include --predefine="__UVI
-SION_VERSION SETA 542" --predefine="STM32H723xx SETA 1" --predefine="_RTE_ SETA
- 1" --list=startup_stm32h723xx.lst startup_stm32h723xx.s
+stm32h723xx.o -I../Drivers/CMSIS/Include -I.\RTE\_STM32H723ZGT6 -IC:\Keil\ARM\P
+acks\ARM\CMSIS\6.1.0\CMSIS\Core\Include --predefine="__EVAL SETA 1" --predefine
+="__UVISION_VERSION SETA 542" --predefine="STM32H723xx SETA 1" --predefine="_RT
+E_ SETA 1" --list=startup_stm32h723xx.lst startup_stm32h723xx.s
 
 
 
@@ -2943,4 +2943,4 @@ Symbol: __use_two_region_memory
       None
 Comment: __use_two_region_memory unused
 4 symbols
-505 symbols in table
+506 symbols in table

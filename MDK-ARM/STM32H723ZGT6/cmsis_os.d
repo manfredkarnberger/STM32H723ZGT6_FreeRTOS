@@ -1,9 +1,9 @@
 stm32h723zgt6\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c
-stm32h723zgt6\cmsis_os.o: C:\Keil\ARM\ARMCC\Bin\..\include\string.h
+stm32h723zgt6\cmsis_os.o: C:\Keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 stm32h723zgt6\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 stm32h723zgt6\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-stm32h723zgt6\cmsis_os.o: C:\Keil\ARM\ARMCC\Bin\..\include\stddef.h
-stm32h723zgt6\cmsis_os.o: C:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+stm32h723zgt6\cmsis_os.o: C:\Keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+stm32h723zgt6\cmsis_os.o: C:\Keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 stm32h723zgt6\cmsis_os.o: ../Core/Inc/FreeRTOSConfig.h
 stm32h723zgt6\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 stm32h723zgt6\cmsis_os.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
