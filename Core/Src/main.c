@@ -615,6 +615,7 @@ static void MX_GPIO_Init(void)
   /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
@@ -762,10 +763,13 @@ void taskFDCAN3(void const * argument)
 void taskUART1(void const * argument)
 {
   /* USER CODE BEGIN taskUART1 */
-  /* Infinite loop */
+  HAL_StatusTypeDef status;
+	uint8_t TxBuffer[] = "Dies ist ein Test\r\n";
+	/* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    status = HAL_UART_Transmit_DMA(&huart1, TxBuffer, sizeof(TxBuffer)-1);
+		osDelay(100);
   }
   /* USER CODE END taskUART1 */
 }
