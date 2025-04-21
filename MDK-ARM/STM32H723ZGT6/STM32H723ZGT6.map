@@ -3722,38 +3722,38 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       122          0          0          0          0      23317   cmsis_os.o
-         0          0          0          0          0      16828   event_groups.o
-        24          6          0          0        596       1352   freertos.o
-       476         24          0         32      15360       7467   heap_4.o
-       138          0          0          0          0       3618   list.o
-      1228         94         78          8       2152    1296033   main.o
-       706         74          0         12          0      10992   port.o
-        72         30        716          0       1536        836   startup_stm32h723xx.o
-       156         32          0         12          0      22974   stm32h7xx_hal.o
-       316         28          0          0          0      41008   stm32h7xx_hal_cortex.o
-      1036         18         92          0          0       4633   stm32h7xx_hal_fdcan.o
-       566         44          0          0          0       2925   stm32h7xx_hal_gpio.o
-       812         80          0          4          0       4565   stm32h7xx_hal_msp.o
-       204          0          0          0          0       1783   stm32h7xx_hal_pcd.o
-        40          6          0          0          0       1226   stm32h7xx_hal_pcd_ex.o
-       100         10          0          0          0       1334   stm32h7xx_hal_pwr_ex.o
-      2466        110          0          0          0       7769   stm32h7xx_hal_rcc.o
-      3622        112          0          0          0       7749   stm32h7xx_hal_rcc_ex.o
-       380         14          0          0          0       1695   stm32h7xx_hal_spi.o
-       820         84          0          0          0       7584   stm32h7xx_hal_tim.o
-         6          0          0          0          0       2312   stm32h7xx_hal_tim_ex.o
-       132         22          0          0         76       1552   stm32h7xx_hal_timebase_tim.o
-      1696        122         24          0          0      25578   stm32h7xx_hal_uart.o
-       284          6         16          0          0       3769   stm32h7xx_hal_uart_ex.o
-        24          6          0          0          0       3176   stm32h7xx_it.o
-       826         20          0          0          0       7581   stm32h7xx_ll_usb.o
+       122          0          0          0          0      23425   cmsis_os.o
+         0          0          0          0          0      16876   event_groups.o
+        24          6          0          0        596       1388   freertos.o
+       476         24          0         32      15360       7551   heap_4.o
+       138          0          0          0          0       3690   list.o
+      1228         94         78          8       2152    1296537   main.o
+       706         74          0         12          0      11124   port.o
+        72         30        716          0       1536        848   startup_stm32h723xx.o
+       156         32          0         12          0      23058   stm32h7xx_hal.o
+       316         28          0          0          0      41116   stm32h7xx_hal_cortex.o
+      1036         18         92          0          0       4681   stm32h7xx_hal_fdcan.o
+       566         44          0          0          0       2973   stm32h7xx_hal_gpio.o
+       812         80          0          4          0       4649   stm32h7xx_hal_msp.o
+       204          0          0          0          0       1807   stm32h7xx_hal_pcd.o
+        40          6          0          0          0       1250   stm32h7xx_hal_pcd_ex.o
+       100         10          0          0          0       1358   stm32h7xx_hal_pwr_ex.o
+      2466        110          0          0          0       7865   stm32h7xx_hal_rcc.o
+      3622        112          0          0          0       7833   stm32h7xx_hal_rcc_ex.o
+       380         14          0          0          0       1719   stm32h7xx_hal_spi.o
+       820         84          0          0          0       7704   stm32h7xx_hal_tim.o
+         6          0          0          0          0       2360   stm32h7xx_hal_tim_ex.o
+       132         22          0          0         76       1588   stm32h7xx_hal_timebase_tim.o
+      1696        122         24          0          0      25686   stm32h7xx_hal_uart.o
+       284          6         16          0          0       3829   stm32h7xx_hal_uart_ex.o
+        24          6          0          0          0       3260   stm32h7xx_it.o
+       826         20          0          0          0       7689   stm32h7xx_ll_usb.o
          0          0          0          0          0        412   stream_buffer.o
-       244         38         16          8          0       1969   system_stm32h7xx.o
-      1522        110          0         60        240      19482   tasks.o
+       244         38         16          8          0       2017   system_stm32h7xx.o
+      1522        110          0         60        240      19686   tasks.o
 
     ----------------------------------------------------------------------
-     18046       1090        992        136      19960    1531519   Object Totals
+     18046       1090        992        136      19960    1533979   Object Totals
          0          0         48          0          0          0   (incl. Generated)
         28          0          2          0          0          0   (incl. Padding)
 
@@ -3807,8 +3807,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     18756       1106        992        136      20056    1519967   Grand Totals
-     18756       1106        992        136      20056    1519967   ELF Image Totals
+     18756       1106        992        136      20056    1522427   Grand Totals
+     18756       1106        992        136      20056    1522427   ELF Image Totals
      18756       1106        992        136          0          0   ROM Totals
 
 ==============================================================================
