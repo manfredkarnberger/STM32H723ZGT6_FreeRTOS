@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -50,11 +51,14 @@ SPI_HandleTypeDef hspi1;
 SPI_HandleTypeDef hspi4;
 
 UART_HandleTypeDef huart1;
-
-PCD_HandleTypeDef hpcd_USB_OTG_HS;
+DMA_HandleTypeDef hdma_usart1_tx;
 
 osThreadId defaultTaskHandle;
 osThreadId HeartBeatHandle;
+osThreadId FDCAN1Handle;
+osThreadId FDCAN2Handle;
+osThreadId FDCAN3Handle;
+osThreadId UART1Handle;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -64,15 +68,19 @@ void SystemClock_Config(void);
 void PeriphCommonClock_Config(void);
 static void MPU_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_FDCAN1_Init(void);
 static void MX_FDCAN2_Init(void);
 static void MX_FDCAN3_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_SPI4_Init(void);
-static void MX_USB_OTG_HS_PCD_Init(void);
 static void MX_USART1_UART_Init(void);
 void StartDefaultTask(void const * argument);
 void taskHeartBeat(void const * argument);
+void taskFDCAN1(void const * argument);
+void taskFDCAN2(void const * argument);
+void taskFDCAN3(void const * argument);
+void taskUART1(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -118,12 +126,12 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_FDCAN1_Init();
   MX_FDCAN2_Init();
   MX_FDCAN3_Init();
   MX_SPI1_Init();
   MX_SPI4_Init();
-  MX_USB_OTG_HS_PCD_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
@@ -153,6 +161,22 @@ int main(void)
   /* definition and creation of HeartBeat */
   osThreadDef(HeartBeat, taskHeartBeat, osPriorityLow, 0, 128);
   HeartBeatHandle = osThreadCreate(osThread(HeartBeat), NULL);
+
+  /* definition and creation of FDCAN1 */
+  osThreadDef(FDCAN1, taskFDCAN1, osPriorityIdle, 0, 128);
+  FDCAN1Handle = osThreadCreate(osThread(FDCAN1), NULL);
+
+  /* definition and creation of FDCAN2 */
+  osThreadDef(FDCAN2, taskFDCAN2, osPriorityIdle, 0, 128);
+  FDCAN2Handle = osThreadCreate(osThread(FDCAN2), NULL);
+
+  /* definition and creation of FDCAN3 */
+  osThreadDef(FDCAN3, taskFDCAN3, osPriorityIdle, 0, 128);
+  FDCAN3Handle = osThreadCreate(osThread(FDCAN3), NULL);
+
+  /* definition and creation of UART1 */
+  osThreadDef(UART1, taskUART1, osPriorityIdle, 0, 128);
+  UART1Handle = osThreadCreate(osThread(UART1), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -277,8 +301,8 @@ static void MX_FDCAN1_Init(void)
   hfdcan1.Instance = FDCAN1;
   hfdcan1.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
   hfdcan1.Init.Mode = FDCAN_MODE_NORMAL;
-  hfdcan1.Init.AutoRetransmission = ENABLE;
-  hfdcan1.Init.TransmitPause = ENABLE;
+  hfdcan1.Init.AutoRetransmission = DISABLE;
+  hfdcan1.Init.TransmitPause = DISABLE;
   hfdcan1.Init.ProtocolException = DISABLE;
   hfdcan1.Init.NominalPrescaler = 32;
   hfdcan1.Init.NominalSyncJumpWidth = 1;
@@ -563,38 +587,18 @@ static void MX_USART1_UART_Init(void)
 }
 
 /**
-  * @brief USB_OTG_HS Initialization Function
-  * @param None
-  * @retval None
+  * Enable DMA controller clock
   */
-static void MX_USB_OTG_HS_PCD_Init(void)
+static void MX_DMA_Init(void)
 {
 
-  /* USER CODE BEGIN USB_OTG_HS_Init 0 */
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
 
-  /* USER CODE END USB_OTG_HS_Init 0 */
-
-  /* USER CODE BEGIN USB_OTG_HS_Init 1 */
-
-  /* USER CODE END USB_OTG_HS_Init 1 */
-  hpcd_USB_OTG_HS.Instance = USB_OTG_HS;
-  hpcd_USB_OTG_HS.Init.dev_endpoints = 9;
-  hpcd_USB_OTG_HS.Init.speed = PCD_SPEED_FULL;
-  hpcd_USB_OTG_HS.Init.dma_enable = DISABLE;
-  hpcd_USB_OTG_HS.Init.phy_itface = USB_OTG_EMBEDDED_PHY;
-  hpcd_USB_OTG_HS.Init.Sof_enable = DISABLE;
-  hpcd_USB_OTG_HS.Init.low_power_enable = DISABLE;
-  hpcd_USB_OTG_HS.Init.lpm_enable = DISABLE;
-  hpcd_USB_OTG_HS.Init.vbus_sensing_enable = DISABLE;
-  hpcd_USB_OTG_HS.Init.use_dedicated_ep1 = DISABLE;
-  hpcd_USB_OTG_HS.Init.use_external_vbus = DISABLE;
-  if (HAL_PCD_Init(&hpcd_USB_OTG_HS) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USB_OTG_HS_Init 2 */
-
-  /* USER CODE END USB_OTG_HS_Init 2 */
+  /* DMA interrupt init */
+  /* DMA1_Stream0_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
 
 }
 
@@ -646,6 +650,8 @@ static void MX_GPIO_Init(void)
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
 {
+  /* init code for USB_DEVICE */
+  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
   for(;;)
@@ -672,6 +678,96 @@ void taskHeartBeat(void const * argument)
 		osDelay(500);
   }
   /* USER CODE END taskHeartBeat */
+}
+
+/* USER CODE BEGIN Header_taskFDCAN1 */
+/**
+* @brief Function implementing the FDCAN1 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_taskFDCAN1 */
+void taskFDCAN1(void const * argument)
+{
+  /* USER CODE BEGIN taskFDCAN1 */
+	HAL_StatusTypeDef status;
+	FDCAN_TxHeaderTypeDef Header;
+	
+	Header.Identifier = 0x123;	
+	uint8_t Payload[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};	
+  /* Infinite loop */
+  for(;;)
+  {
+    status = HAL_FDCAN_AddMessageToTxBuffer(&hfdcan1, &Header, Payload, 8);
+    osDelay(100);
+  }
+  /* USER CODE END taskFDCAN1 */
+}
+
+/* USER CODE BEGIN Header_taskFDCAN2 */
+/**
+* @brief Function implementing the FDCAN2 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_taskFDCAN2 */
+void taskFDCAN2(void const * argument)
+{
+  /* USER CODE BEGIN taskFDCAN2 */
+	HAL_StatusTypeDef status;
+	FDCAN_TxHeaderTypeDef Header;
+	
+	Header.Identifier = 0x234;
+	uint8_t Payload[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
+  /* Infinite loop */
+  for(;;)
+  {
+    status = HAL_FDCAN_AddMessageToTxBuffer(&hfdcan1, &Header, Payload, 8);
+		osDelay(100);
+  }
+  /* USER CODE END taskFDCAN2 */
+}
+
+/* USER CODE BEGIN Header_taskFDCAN3 */
+/**
+* @brief Function implementing the FDCAN3 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_taskFDCAN3 */
+void taskFDCAN3(void const * argument)
+{
+  /* USER CODE BEGIN taskFDCAN3 */
+	HAL_StatusTypeDef status;
+	FDCAN_TxHeaderTypeDef Header;
+
+	Header.Identifier = 0x345;
+	uint8_t Payload[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};	
+	/* Infinite loop */
+  for(;;)
+  {
+    status = HAL_FDCAN_AddMessageToTxBuffer(&hfdcan1, &Header, Payload, 8);
+    osDelay(100);
+  }
+  /* USER CODE END taskFDCAN3 */
+}
+
+/* USER CODE BEGIN Header_taskUART1 */
+/**
+* @brief Function implementing the UART1 thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_taskUART1 */
+void taskUART1(void const * argument)
+{
+  /* USER CODE BEGIN taskUART1 */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END taskUART1 */
 }
 
  /* MPU Configuration */

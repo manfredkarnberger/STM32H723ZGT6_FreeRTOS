@@ -56,3 +56,9 @@ stm32h723zgt6\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.
 stm32h723zgt6\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 stm32h723zgt6\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 stm32h723zgt6\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+stm32h723zgt6\main.o: ../USB_DEVICE/App/usb_device.h
+stm32h723zgt6\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
+stm32h723zgt6\main.o: ../USB_DEVICE/Target/usbd_conf.h
+stm32h723zgt6\main.o: C:\Keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
+stm32h723zgt6\main.o: C:\Keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+stm32h723zgt6\main.o: C:\Keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
